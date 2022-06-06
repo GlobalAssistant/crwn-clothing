@@ -6,6 +6,7 @@ import {
   signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 
 // import Firestore
@@ -30,18 +31,22 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // Customize provider
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
     prompt: "select_account"
 });
 
-// Sign in with Google Auth
+// Sign in with Google Auth or Redirect
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+// Google Redirect can be used with other authentication such as facebook, github - google auth
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
 // Get FireStore DB
 export const db = getFirestore();
-export const createUserDocumentsFromAuth = async(userAuth) => {
+export const createUserDocumentsFromAuth = async(userAuth, additionalInformation = {}) => {
+    if (!userAuth) return;
+
     const userDocRef = doc(db, 'users', userAuth.uid);
     const userSnapshot = await getDoc(userDocRef);
     
@@ -55,7 +60,8 @@ export const createUserDocumentsFromAuth = async(userAuth) => {
             await setDoc(userDocRef, {
                 displayName,
                 email,
-                createdAt
+                createdAt,
+                ...additionalInformation,
             });
         } catch (error){
             console.log('error creating the user', error.message);
@@ -64,4 +70,10 @@ export const createUserDocumentsFromAuth = async(userAuth) => {
     // if user data exists return userDocRef
     return userDocRef;
 
+}
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+
+    return await createUserWithEmailAndPassword(auth, email, password);
 }
