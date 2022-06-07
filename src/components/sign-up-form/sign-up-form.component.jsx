@@ -22,7 +22,7 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
-  const val = useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -41,6 +41,9 @@ const SignUpForm = () => {
         email,
         password
       );
+      
+      // onAuthStateChanged is used, so no context variable
+      // setCurrentUser(user);
 
       await createUserDocumentsFromAuth(user, { displayName });
     } catch (error) {

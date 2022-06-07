@@ -30,8 +30,19 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentsFromAuth(user);
+    // Move to userContext
+    // const { user } = await signInWithGooglePopup();
+    
+    // the following context variable setter should be defined every fuction, where it needs.... in order to use context variable.
+    // onAuthStateChanged is used, so no context variable -- comment reason
+
+    // setCurrentUser(user);
+
+    // Move to userContext
+    // await createUserDocumentsFromAuth(user);
+
+    // Final
+    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
@@ -39,7 +50,8 @@ const SignInForm = () => {
 
     try {
       const {user} = await signInAuthUserWithEmailAndPassword(email, password);
-      setCurrentUser(user);
+      // onAuthStateChanged is used, so no context variable
+      // setCurrentUser(user);
 
       resetFormFields();
     } catch (error) {
