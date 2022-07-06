@@ -120,6 +120,7 @@
 18. useContext
 19. useReducer
 20. Redux
+    npm install redux, react-redux, redux-logger
     = Redux installation
         - create a folder named store: all of our redux happens
         - store/store.js
@@ -129,7 +130,8 @@
         - store.js
         - index.js -> Provider
     = hook for single dispatch
-        
+        on App.js, the same as userContext action, but use
+        useDispatch() - createAction(0)
     
 
 
