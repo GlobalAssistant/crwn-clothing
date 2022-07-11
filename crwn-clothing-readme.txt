@@ -132,6 +132,9 @@
     = hook for single dispatch
         on App.js, the same as userContext action, but use
         useDispatch() - createAction(0)
+    = get Redux value
+        useSelector from react-redux
+        selector - business logic!!!
     
 
 
